@@ -1,0 +1,73 @@
+//require libc.ext
+
+//include lib.inc
+
+
+on CanTp_RxIndication($data,$length)
+{
+	print("CanTp_RxIndication($data,$length)\n");
+}
+
+def test_array()
+{
+	$A = array[];
+	$i = 0;
+	for($i=0;$i<28;$i++)
+	{
+		$VehicleSpeed = read("VehicleSpeed");
+		print("VehicleSpeed=",$VehicleSpeed,"\n");
+		$A[$i] = $i*2 + 1;
+		sleep(1000*1000);	// sleep 1 second
+		print($i," seconds elapsed\n");
+		write("VehicleSpeed",$i*1000);
+	}
+	
+	$A["HelloWorld"] = "Small Kitty";
+	
+	print("$A=",$A,"\n");
+}
+
+def main()
+{	
+	$rv = 0x0;
+	
+	test_array();
+	
+	print("Global $rv=",$rv,"\n");
+	
+	while($rv < 10)
+	{
+		$rv++;
+		print("Global $rv=",$rv,"\n");
+		if($rv == 3)
+		{
+			print("Test Break,$rv=",$rv,"\n");
+			return 2;
+		}
+	}
+	
+	if($rv == 3)
+	{
+		return 0;
+	}
+	else
+	{
+		return 1;
+	}
+}
+
+// Execute...
+$rv = main();
+
+if($rv == 0)
+{
+	print("Very Good\n");
+}
+else if($rv == 2)
+{
+	print("Very Good2\n");
+}
+else
+{
+	print("Bad Girl\n");
+}
